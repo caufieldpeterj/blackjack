@@ -101,7 +101,7 @@ let deckOfCards2 = [];
 for (suits of suits2) {
     for (values in cards2) {
         // console.log(values, suits);
-        let card2 = {Value: values, Suit: suits}
+        let card2 = {Rank: values, Suit: suits}
         deckOfCards2.push(card2);
     }
 }
