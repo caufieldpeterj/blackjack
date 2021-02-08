@@ -25,8 +25,12 @@ Overview:  A function that creates the player & dealer objects, and the deck of 
 */
 
 // A dealer, single-player, and a deck of 52 cards exists
-const player = {};
-const dealer = {};
+const player = {
+    hand: []
+};
+const dealer = {
+    hand: []
+};
 
 /*
 ====================================================
@@ -101,25 +105,25 @@ for (suits of suits2) {
         deckOfCards2.push(card2);
     }
 }
-// console.log(deckOfCards2)             // prints an array of card objects
-// console.log(deckOfCards2.length);     // returns 52 cards
+
+// returns an object  https://www.w3schools.com/js/js_arrays.asp
+// console.log(typeof deckOfCards2)      
+
+// prints an array of card objects
+// console.log(deckOfCards2)      
+
+// returns 52 cards
+// console.log(deckOfCards2.length);     
 
 /*
 ==============================================
-                SHUFFLE AND DEAL
+                SHUFFLE 
 ==============================================
 
 Overview: shuffle the deck, and deal the player and dealer 2 cards.
 
 https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
     Summary: Fisher-Yates' algo was slightly modified by Richard Durstenfeld in '64 to improve the run-time to O(n), as the former was developed in 1938 using pencil and paper. Feautured in https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming 
-
-
-Deal Sequence
-    - At random, the single-player gets a card from the deck
-    - At random, the dealer gets a card 
-    - At random, the single-player gets another card 
-    - At random, the dealer gets another card (face down)
 */
 
 
@@ -133,9 +137,30 @@ const ShuffleDeck = (deck) => {
 }
 
 ShuffleDeck(deckOfCards2);
-console.log(typeof deckOfCards2);   // returns an object
-console.log(deckOfCards2.keys())
+// console.log(typeof deckOfCards2);
+// console.log(deckOfCards2);
 
+/*
+==============================================
+                DEAL 
+==============================================
+Deal Sequence
+    - At random, the single-player gets a card from the deck
+    - At random, the dealer gets a card 
+    - At random, the single-player gets another card 
+    - At random, the dealer gets another card (face down)
+*/
+
+// console.log(deckOfCards2, deckOfCards2.length);
+player.hand.push(deckOfCards2.pop());
+dealer.hand.push(deckOfCards2.pop());
+player.hand.push(deckOfCards2.pop());
+dealer.hand.push(deckOfCards2.pop());
+
+// console.log(deckOfCards2.length);
+
+console.log(dealer);
+console.log(player);
 
 
 /*
@@ -160,3 +185,11 @@ console.log(deckOfCards2.keys())
 */
 
 
+
+// onload function
+/*
+(() => {
+
+
+})
+*/
