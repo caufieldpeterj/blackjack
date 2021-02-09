@@ -61,17 +61,16 @@ console.log(player);
 
 // returns 52 cards
 // console.log(deckOfCards2.length);     
-
-
-*
-==============================================
-                    THE PLAY
-==============================================
-
-- The player goes first, chooses to hit, stand, or split if their first 2 cards are of the same denomination ex. 2 queens, 2 sevens, 2 aces, etc. If the player splits anything other than aces, the player plays the hand to their left by standing or hitting, then the hand to their right. With a pair of aces, the player is given one card for each ace and may not draw again
-
-
 */
+
+
+const hitPlayer = () => {
+    
+}
+
+
+
+
 
 
 
@@ -91,7 +90,7 @@ $(() => {
     */
 
     const player = {
-       hand: []
+        hand: []
     };
     const dealer = {
         hand: []
@@ -117,7 +116,7 @@ $(() => {
     // console.log(Object.values(cardRank));
 
     // for loop to iterate over the suits and for loop to iterate over the cards to create the actual cards
-    
+
     let deckOfCards = [];
 
     for (suit of cardSuits) {
@@ -171,11 +170,13 @@ $(() => {
         for (let i=0;i<4;i++) {
             const $card = $('<div>').addClass('cards');
             if (i%2===0) {
+                player.hand.push(deckOfCards.pop())
+                // $card.text('first card');
                 $playerHand.append($card);
-                player.hand.push(deckOfCards.pop());
             } else {
-                $dealerHand.append($card);
                 dealer.hand.push(deckOfCards.pop());
+                // $card.text('first card')
+                $dealerHand.append($card);
             }            
         }
     };
@@ -190,7 +191,7 @@ $(() => {
     - If the sum of the player's cards === 21 AND the dealer's 1st card is a 10 or Ace check to see if the sum of dealer's cards is 21... if sum of dealers card is 21... tie game
     */
 
-   
+
     ShuffleDeck(deckOfCards);
     dealCards(); 
 
@@ -203,13 +204,17 @@ $(() => {
         console.log("Player total: " +playerHand);
 
         if (playerHand===21 && dealerHand===21) {
-            console.log('DOUBLE BLACKJACK, TIE GAME!');
+            let $h3 = $('<h3>').text('DOUBLE BLACKJACK, TIE GAME!');
+            $('body').append($h3);
         } else if (playerHand===21 && dealerHand < 21) {
-            console.log('NATURAL BLACKJACK FOR THE PLAYER!');
+            let $h3 = $('<h3>').text('NATURAL BLACKJACK FOR THE PLAYER!');
+            $('body').append($h3);
         } else if (playerHand < 21 && dealerHand===21) {
-            console.log('NATURAL BLACKJACK FOR THE DEALER!');
+            let $h3 = $('<h3>').text('NATURAL BLACKJACK FOR THE DEALER!');
+            $('body').append($h3);
         } else if (playerHand > 21 || dealerHand > 21) {
-            console.log('Houston, we have a problem.');
+            let $h3 = $('<h3>').text('Houston we have a problem');
+            $('body').append($h3);
         } else {
             return;
         }
@@ -218,10 +223,27 @@ $(() => {
     checkNaturals();
     console.log(dealer.hand);
     console.log(player.hand);
+
+    /*
+    ==============================================
+                    THE PLAY
+    ==============================================
+
+    - The player goes first, chooses to hit, stand, or split if their first 2 cards are of the same denomination ex. 2 queens, 2 sevens, 2 aces, etc. If the player splits anything other than aces, the player plays the hand to their left by standing or hitting, then the hand to their right. With a pair of aces, the player is given one card for each ace and may not draw again
+    */
+
+    console.log('What would you like to do, hit or stand?');
+
+    // target the buttons using jQuery and assign them to a $variable
+    const $hit = $('#hit');
+    // add event listeners to listen for a click, tie that into a function that will proceed to the dealer or draw another card from the deck
+    $hit.on('click', () => {console.log('the player wants another card')});
+
+
+
     
-   
     
-    
+
 
 
 });

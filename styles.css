@@ -29,7 +29,7 @@ h1 {
     margin-bottom: 50px;
 }
 
-
+/* 
 .dealer-cards, .player-cards {
     flex-basis: 8em;
     height: 12em;
@@ -76,7 +76,6 @@ h1 {
 }
 
 .card-back  {
-  /* adapted from: https://leaverou.github.io/css3patterns/#zig-zag */
 background:
   linear-gradient(135deg, #FBFBFB 25%, transparent 25%) -50px 0,
   linear-gradient(225deg, #FBFBFB 25%, transparent 25%) -50px 0,
@@ -86,3 +85,6 @@ background:
   background-color: mediumseagreen;
   color: rgba(0,0,0,0);
 }
+*/
+
+/* adapted from: https://leaverou.github.io/css3patterns/#zig-zag  */
