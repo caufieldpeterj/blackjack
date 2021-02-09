@@ -129,17 +129,19 @@ const hitPlayer = () => {
 
 const dealerLogic = () => {
     console.log('now it\'s the dealer\'s turn');
-    let dealerHand = dealer.hand[0].Value + dealer.hand[1].Value;
-    if (dealerHand > 17) {
-        console.log('dealer will stay');
-    } else if (dealerHand < 17) {
+    let dealerHand = 0;
+    for (let i=0;i<dealer.hand.length;i++) {
+        dealerHand += dealer.hand[i].Value;
+    }
+    while (dealerHand < 17) {
         console.log('dealer will hit');
         dealer.hand.push(deckOfCards.pop());
         for (let i=2;i<dealer.hand.length;i++) {
-            dealerHand += dealer.hand[i].Value;
-            console.log("Dealer's new hand total is "+ dealerHand);
+            dealerHand += dealer.hand[i].Value
         }
     }
+
+    console.log('Dealer\'s current hand totals '+ dealerHand);
 };
 
 
