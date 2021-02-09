@@ -134,9 +134,26 @@ const checkNaturals = () => {
     }
 };
 
+/*
+==============================================
+                THE PLAY
+==============================================
+
+- The player goes first, chooses to hit, stand, or split if their first 2 cards are of the same denomination ex. 2 queens, 2 sevens, 2 aces, etc. If the player splits anything other than aces, the player plays the hand to their left by standing or hitting, then the hand to their right. With a pair of aces, the player is given one card for each ace and may not draw again
+*/
+
 const hitPlayer = () => {
     // console.log('the player wants another card');
-    console.log(player.hand);
+    // console.log(player.hand);
+    player.hand.push(deckOfCards.pop());
+    // console.log(player.hand);
+    let playerHandTotal = player.hand[0].Value + player.hand[1].Value;
+    for (let i=2;i<player.hand.length;i++) {
+        // console.log(player.hand[i].Value);
+        playerHandTotal += player.hand[i].Value;
+    }
+    console.log("New player total: "+playerHandTotal);
+    
 }
 
 
@@ -147,28 +164,12 @@ $(() => {
     checkNaturals();
     // console.log(dealer.hand);
     // console.log(player.hand);
-
-    /*
-    ==============================================
-                    THE PLAY
-    ==============================================
-
-    - The player goes first, chooses to hit, stand, or split if their first 2 cards are of the same denomination ex. 2 queens, 2 sevens, 2 aces, etc. If the player splits anything other than aces, the player plays the hand to their left by standing or hitting, then the hand to their right. With a pair of aces, the player is given one card for each ace and may not draw again
-    */
-
     console.log('What would you like to do, hit or stand?');
 
     // target the buttons using jQuery and assign them to a $variable
     const $hit = $('#hit');
-    // add event listeners to listen for a click, tie that into a function that will proceed to the dealer or draw another card from the deck
-    // $hit.on('click', () => {console.log('the player wants another card')});
-    
-    $hit.on('click', hitPlayer);
-
-
-
-    
-    
+    // add event listeners to listen for a click, tie that into a function that will proceed to the dealer or draw another card from the deck    
+    $hit.on('click', hitPlayer);    
 
 
 
