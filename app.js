@@ -153,9 +153,7 @@ const hitPlayer = () => {
         playerHandTotal += player.hand[i].Value;
     }
     console.log("New player total: "+playerHandTotal);
-    
 }
-
 
 
 $(() => {
@@ -166,10 +164,17 @@ $(() => {
     // console.log(player.hand);
     console.log('What would you like to do, hit or stand?');
 
-    // target the buttons using jQuery and assign them to a $variable
+    // target the HIT button using jQuery, assigning to $hit variable
+    // adding an event listener, passing in the callback function hitPlayer
     const $hit = $('#hit');
-    // add event listeners to listen for a click, tie that into a function that will proceed to the dealer or draw another card from the deck    
-    $hit.on('click', hitPlayer);    
+    $hit.on('click', hitPlayer);
+
+    const $stand = $('#stand');
+    $stand.on('click', ()=>{console.log('now it\'s the dealer\'s turn')});
+
+
+    const $deal = $('#deal');
+    $stand.on('click', ()=>{console.log('need to reset the game')});
 
 
 
