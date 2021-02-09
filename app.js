@@ -145,9 +145,6 @@ const dealerLogic = () => {
 };
 
 
-
-
-
 $(() => {
     // console.log(dealer.hand);
     // console.log(player.hand);

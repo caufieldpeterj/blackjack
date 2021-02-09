@@ -1,12 +1,23 @@
 /* https://git.generalassemb.ly/seir-1-19/student-resources/tree/main/1_front_end_development/w03d03/student_examples/event_targeting */
 
 body {
-    background-color: forestgreen;
+    background-color: rgb(15, 82, 15);
 }
 
 h1 {
     text-align: center;
-    margin: 50px auto 10px auto; 
+    margin: 50px auto 0px auto;
+    color: rgb(214, 214, 3); 
+    text-shadow: black;
+}
+
+h2{
+    text-align: center;
+    color: rgb(214, 214, 3); 
+    /* color: rgb(212, 4, 4); */
+    text-shadow: black;
+    font-style: italic;
+    
 }
 
 .buttons {
@@ -25,8 +36,9 @@ h1 {
 .participant {
     flex-direction: row;
     justify-content: space-around;
-    border: 5px solid black;
+    border: 5px solid white;
     margin-bottom: 50px;
+    color: white;
 }
 
 /* 
