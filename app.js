@@ -208,6 +208,8 @@ $(() => {
             console.log('NATURAL BLACKJACK FOR THE PLAYER!');
         } else if (playerHand < 21 && dealerHand===21) {
             console.log('NATURAL BLACKJACK FOR THE DEALER!');
+        } else if (playerHand > 21 || dealerHand > 21) {
+            console.log('Houston, we have a problem.');
         } else {
             return;
         }
