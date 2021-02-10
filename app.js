@@ -67,7 +67,7 @@ const createGame = () => {
             const $card = $('<div>').addClass('cards');
             if (i%2===0) {
                 player.hand.push(deckOfCards.pop())
-                // $card.text('first card');
+                $card.text('players card');
                 $playerHand.append($card);
             } else {
                 dealer.hand.push(deckOfCards.pop());
@@ -127,12 +127,39 @@ const hitPlayer = () => {
     }
 }
 
+const checkTotals = () => {
+    let dealerTotal = 0;
+    for (cardValues of dealer.hand) {
+        // console.log(cardValues.Value);
+        dealerTotal += cardValues.Value;
+    }
+    
+    let playerTotal = 0;
+    for (cardValues of player.hand) {
+        // console.log(cardValues.Value);
+        playerTotal += cardValues.Value;
+    }
+
+    if (dealerTotal > 21) {
+        console.log('player wins');
+    } else if (playerTotal > 21) {
+        console.log('dealer wins');
+    } else if (playerTotal === dealerTotal) {
+        console.log('Push!');        
+    } else if (dealerTotal > playerTotal) {
+        console.log('dealer wins');
+    } else if (dealerTotal < playerTotal) {
+        console.log('player wins');
+    }
+}
+
 const dealerLogic = () => {
     console.log('now it\'s the dealer\'s turn');
     let dealerHand = 0;
     for (let i=0;i<dealer.hand.length;i++) {
         dealerHand += dealer.hand[i].Value;
     }
+
     while (dealerHand < 17) {
         console.log('dealer will hit');
         dealer.hand.push(deckOfCards.pop());
@@ -142,13 +169,18 @@ const dealerLogic = () => {
     }
 
     console.log('Dealer\'s current hand totals '+ dealerHand);
+    checkTotals();
 };
+
 
 
 $(() => {
     // console.log(dealer.hand);
     // console.log(player.hand);
     // console.log('What would you like to do, hit or stand?');
+
+    const $deal = $('#deal');
+    $deal.on('click', createGame);
 
     // target the HIT button using jQuery, assigning to $hit variable
     // adding an event listener, passing in the callback function hitPlayer
@@ -157,8 +189,4 @@ $(() => {
 
     const $stand = $('#stand');
     $stand.on('click', dealerLogic);
-
-    const $deal = $('#deal');
-    $deal.on('click', createGame);
-
 });

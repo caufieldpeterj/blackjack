@@ -5,42 +5,63 @@ body {
 }
 
 h1 {
-    text-align: center;
-    margin: 50px auto 0px auto;
-    color: rgb(214, 214, 3); 
-    text-shadow: black;
+  text-align: center;
+  margin: 50px auto 0px auto;
+  color: rgb(214, 214, 3); 
+  text-shadow: black;
 }
 
-h2{
-    text-align: center;
-    color: rgb(214, 214, 3); 
-    /* color: rgb(212, 4, 4); */
-    text-shadow: black;
-    font-style: italic;
-    
+h2 {
+  text-align: center;
+  color: rgb(214, 214, 3); 
+  /* color: rgb(212, 4, 4); */
+  text-shadow: black;
+  font-style: italic;
+}
+
+h3 {
+  color: white;
 }
 
 .buttons {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  width: 60%;
+  flex-direction: column;
 }
 
 .container {
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    /* border: 1px solid black; */
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  /* border: 1px solid black; */
 }
 
 .participant {
-    flex-direction: row;
-    justify-content: space-around;
-    border: 5px solid white;
-    margin-bottom: 50px;
-    color: white;
+  flex-direction: row;
+  justify-content: space-around;
+  border: 5px solid white;
+  margin-bottom: 50px;
+  color: white;
 }
 
+.cards {
+  flex-basis: 8em;
+  height: 12em;
+  border: 1px solid orange;
+  background: blue;
+  box-shadow: 2px 2px 4px grey;
+  display: grid;
+  border-radius: 10%;
+  grid-template-columns: .5em 1.5em 4em 1.5em .5em;
+  grid-template-rows: 3em 5em 3em;
+  grid-column-gap: .5em;
+  grid-row-gap: .5em;
+  grid-template-areas:
+    ". . . top ."
+    ". . center . ."
+    ". bottom . . ."
+}
 /* 
 .dealer-cards, .player-cards {
     flex-basis: 8em;
