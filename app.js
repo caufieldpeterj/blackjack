@@ -51,6 +51,10 @@ for (suit of cardSuits) {
     }
 };
 
+const resetGame = () => {
+    location.reload();
+};
+
 
 const createGame = () => {   
     const ShuffleDeck = (deck) => {
@@ -67,11 +71,11 @@ const createGame = () => {
             const $card = $('<div>').addClass('cards');
             if (i%2===0) {
                 player.hand.push(deckOfCards.pop())
-                $card.text(player.hand[player.hand.length-1].Value);
+                $card.text(player.hand[player.hand.length-1].Rank);
                 $playerHand.append($card);
             } else {
                 dealer.hand.push(deckOfCards.pop());
-                $card.text(dealer.hand[dealer.hand.length-1].Value);
+                $card.text(dealer.hand[dealer.hand.length-1].Rank);
                 $dealerHand.append($card);
             }            
         }
@@ -101,8 +105,11 @@ const createGame = () => {
             return;
         }
     };
+    
     ShuffleDeck(deckOfCards);
+    
     dealCards();
+    
     checkNaturals();
 };
 
@@ -113,7 +120,7 @@ const hitPlayer = () => {
     player.hand.push(deckOfCards.pop());
     
     const $card = $('<div>').addClass('cards');
-    $card.text(player.hand[player.hand.length-1].Value);
+    $card.text(player.hand[player.hand.length-1].Rank);
     
     const $playerHand = $('#player-cards');
     $playerHand.append($card);
@@ -167,17 +174,16 @@ const dealerLogic = () => {
     while (dealerHand < 17) {
         console.log('dealer will hit');
         dealer.hand.push(deckOfCards.pop());
+        const $card = $('<div>').addClass('cards');
+        const $dealerHand = $('#dealer-cards');
         for (let i=2;i<dealer.hand.length;i++) {
-            dealerHand += dealer.hand[i].Value
+            dealerHand += dealer.hand[i].Value;
+            $card.text(dealer.hand[dealer.hand.length-1].Rank);
+            $dealerHand.append($card);
         }
+        console.log('Dealer\'s hand totals '+ dealerHand);
     }
-
-    console.log('Dealer\'s current hand totals '+ dealerHand);
     checkTotals();
-};
-
-const resetGame = () => {
-    location.reload();
 };
 
 
@@ -200,5 +206,5 @@ $(() => {
 
     const $reset = $('#reset');
     $reset.on('click', resetGame);
-    
+
 });
