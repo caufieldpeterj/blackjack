@@ -174,8 +174,10 @@ const dealerLogic = () => {
 
     console.log('Dealer\'s current hand totals '+ dealerHand);
     checkTotals();
+};
 
-    
+const resetGame = () => {
+    location.reload();
 };
 
 
@@ -197,6 +199,6 @@ $(() => {
     $stand.on('click', dealerLogic);
 
     const $reset = $('#reset');
-    $reset.on('click', ()=> {location.reload();});
+    $reset.on('click', resetGame);
     
 });
