@@ -67,11 +67,11 @@ const createGame = () => {
             const $card = $('<div>').addClass('cards');
             if (i%2===0) {
                 player.hand.push(deckOfCards.pop())
-                $card.text('players card');
+                $card.text(player.hand[player.hand.length-1].Value);
                 $playerHand.append($card);
             } else {
                 dealer.hand.push(deckOfCards.pop());
-                // $card.text('first card')
+                $card.text(dealer.hand[dealer.hand.length-1].Value);
                 $dealerHand.append($card);
             }            
         }
@@ -109,10 +109,15 @@ const createGame = () => {
 
 
 const hitPlayer = () => {
-    // console.log('the player wants another card');
-    // console.log(player.hand);
+    
     player.hand.push(deckOfCards.pop());
-    // console.log(player.hand);
+    
+    const $card = $('<div>').addClass('cards');
+    $card.text(player.hand[player.hand.length-1].Value);
+    
+    const $playerHand = $('#player-cards');
+    $playerHand.append($card);
+    
     let playerHandTotal = player.hand[0].Value + player.hand[1].Value;
     for (let i=2;i<player.hand.length;i++) {
         // console.log(player.hand[i].Value);
