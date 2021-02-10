@@ -101,7 +101,6 @@ const createGame = () => {
             return;
         }
     };
-
     ShuffleDeck(deckOfCards);
     dealCards();
     checkNaturals();
@@ -170,6 +169,8 @@ const dealerLogic = () => {
 
     console.log('Dealer\'s current hand totals '+ dealerHand);
     checkTotals();
+
+    
 };
 
 
@@ -189,4 +190,8 @@ $(() => {
 
     const $stand = $('#stand');
     $stand.on('click', dealerLogic);
+
+    const $reset = $('#reset');
+    $reset.on('click', ()=> {location.reload();});
+    
 });
