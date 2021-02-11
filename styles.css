@@ -23,6 +23,8 @@ h2 {
 
 h3 {
   color: white;
+  display: flex;
+  margin-left: 5%;
 }
 
 .buttons {
@@ -30,29 +32,34 @@ h3 {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  border: 5px solid grey;
+  /* justify-content: space-around; */
+  /* border: 5px solid grey; */
 }
 
 .participant {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  /* justify-content: space-around; */
   border: 5px solid white;
   margin-bottom: 50px;
   color: white;
   height: 350px;
 }
 
+.player-cards, .dealer-cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .cards {
   display: flex;
-  flex-direction: column;
   border:2px solid red;
   background-color: white;
   width: 100px;
