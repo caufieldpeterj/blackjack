@@ -88,15 +88,6 @@ const createGame = () => {
         }
     }
 
-    const splitHand = () => {
-        if (player.hand[0].Rank === player.hand[1].Rank) {
-            $buttons = $('.buttons');
-            $splitButton = $('<button>').text('Split Hand').attr('id', 'split-hand');
-            $buttons.append($splitButton); 
-            
-        }
-    }
-
     const checkNaturals = () => {
         let dealerHand = dealer.hand[0].Value + dealer.hand[1].Value;
         let playerHand = player.hand[0].Value + player.hand[1].Value;
@@ -124,13 +115,50 @@ const createGame = () => {
     
     ShuffleDeck(deckOfCards);
     
-    dealCards();
-    
-    splitHand();
+    dealCards();    
 
     checkNaturals();
 };
 
+
+// FIND ACE function needs to be declared here
+// https://usefulangle.com/post/3/javascript-search-array-of-objects
+const findAce = (handOfCards) => {
+    for (let i=0;i<handOfCards.length;i++) {
+        if (handOfCards[i].Rank === "Ace") {
+            console.log('there is an ace present');
+        }
+    }
+}
+
+
+
+const splitHand = () => {
+    if (player.hand[0].Rank === player.hand[1].Rank) {
+        $buttons = $('.buttons');
+        $splitButton = $('<button>').text('Split Hand').attr('id', 'split-hand');
+        $buttons.append($splitButton);        
+    }
+}
+
+const hitPlayer = () => {
+    
+    player.hand.push(deckOfCards.pop());
+    
+    const $card = $('<div>').addClass('cards');
+    $card.text(player.hand[player.hand.length-1].Rank);
+    
+    const $playerHand = $('#player-cards');
+    $playerHand.append($card);
+    
+    let playerHandTotal = player.hand[0].Value + player.hand[1].Value;
+    for (let i=2;i<player.hand.length;i++) {
+        // console.log(player.hand[i].Value);
+        playerHandTotal += player.hand[i].Value;
+    }
+
+    console.log("New player total: "+playerHandTotal);
+}
 
 const checkTotals = () => {
     let dealerTotal = 0;
@@ -156,24 +184,6 @@ const checkTotals = () => {
     }
 }
 
-const hitPlayer = () => {
-    
-    player.hand.push(deckOfCards.pop());
-    
-    const $card = $('<div>').addClass('cards');
-    $card.text(player.hand[player.hand.length-1].Rank);
-    
-    const $playerHand = $('#player-cards');
-    $playerHand.append($card);
-    
-    let playerHandTotal = player.hand[0].Value + player.hand[1].Value;
-    for (let i=2;i<player.hand.length;i++) {
-        // console.log(player.hand[i].Value);
-        playerHandTotal += player.hand[i].Value;
-    }
-    console.log("New player total: "+playerHandTotal);
-}
-
 
 const dealerLogic = () => {
     console.log('now it\'s the dealer\'s turn');
@@ -191,13 +201,12 @@ const dealerLogic = () => {
         dealer.hand.push(deckOfCards.pop());
         const $card = $('<div>').addClass('cards');
         const $dealerHand = $('#dealer-cards');
-        for (let i=2;i<dealer.hand.length;i++) {
-            dealerHand += dealer.hand[i].Value;
-            $card.text(dealer.hand[dealer.hand.length-1].Rank);
-            $dealerHand.append($card);
-        }
+        dealerHand += dealer.hand[dealer.hand.length-1].Value;
+        $card.text(dealer.hand[dealer.hand.length-1].Rank);
+        $dealerHand.append($card);
         console.log('Dealer\'s hand totals '+ dealerHand);
     }
+
     checkTotals();
 };
 
@@ -223,6 +232,12 @@ $(() => {
     $reset.on('click', resetGame);
 
     const $splitButton = $('#split-hand');
-    $splitButton.on('click', ()=>{console.log('still gotta figure this out')});
+    $splitButton.on('click', ()=>{
+        console.log('figure out split function');
+    });
 
 });
+
+
+
+// gotta figure out the split logic, ace + ace, 
