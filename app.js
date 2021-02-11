@@ -5,8 +5,8 @@
 Overview:  A function that creates the player & dealer objects, and the deck of cards.A dealer, single-player, and a deck of 52 cards exists
 
 // I think we should create card objects vs. using arrays
-// the keys are the actual name of the card (Four, Five, Jack, Queen, King, Ace) 
-// and value is the numerical value of the card.. will allow us to assign an Ace a value of 1 or 11?
+// the keys are the rank of the card (Four, Five, Jack, Queen, King, Ace) 
+// and value is the numerical value of the card.. what will allow us to assign an Ace a value of 1 or 11?
 // I found this link below Monday morning at 8:28am, after outlining this method over the weekend/with Raahima (TA)! Hard to believe, but it's the truth.
 // https://www.programiz.com/javascript/examples/shuffle-card
     */
@@ -36,6 +36,7 @@ const cardRank = {
     King: 10, 
     Ace: 11
 };
+
 // console.log(Object.values(cardRank));
 
 // for loop to iterate over the suits and for loop to iterate over the cards to create the actual cards
@@ -75,11 +76,17 @@ const createGame = () => {
                 $playerHand.append($card);
             } else {
                 dealer.hand.push(deckOfCards.pop());
-                $card.text(dealer.hand[dealer.hand.length-1].Rank);
-                $dealerHand.append($card);
+                if (dealer.hand.length-1 > 0) {
+                    $card.text(dealer.hand[dealer.hand.length-1].Rank);
+                    $dealerHand.append($card);
+                } else {
+                    $card.text('Dealer: Card 1').attr('id', 'face-down-dealer-card');
+                    $dealerHand.append($card);
+                }
+                
             }            
         }
-    };
+    }
 
     const checkNaturals = () => {
         let dealerHand = dealer.hand[0].Value + dealer.hand[1].Value;
@@ -114,6 +121,29 @@ const createGame = () => {
 };
 
 
+const checkTotals = () => {
+    let dealerTotal = 0;
+    for (cardValues of dealer.hand) {
+        dealerTotal += cardValues.Value;
+    }
+    
+    let playerTotal = 0;
+    for (cardValues of player.hand) {
+        playerTotal += cardValues.Value;
+    }
+
+    if (dealerTotal > 21) {
+        console.log('Player wins');
+    } else if (playerTotal > 21) {
+        console.log('Dealer wins');
+    } else if (playerTotal === dealerTotal) {
+        console.log('Push');
+    } else if (dealerTotal > playerTotal) {
+        console.log('Dealer wins');
+    } else if (dealerTotal < playerTotal) {
+        console.log('Player wins');
+    }
+}
 
 const hitPlayer = () => {
     
@@ -130,42 +160,16 @@ const hitPlayer = () => {
         // console.log(player.hand[i].Value);
         playerHandTotal += player.hand[i].Value;
     }
-    if (playerHandTotal>21) {
-        console.log('BUSTED!');
-        return;
-    } else { 
-        console.log("New player total: "+playerHandTotal);
-    }
+    console.log("New player total: "+playerHandTotal);
 }
 
-const checkTotals = () => {
-    let dealerTotal = 0;
-    for (cardValues of dealer.hand) {
-        // console.log(cardValues.Value);
-        dealerTotal += cardValues.Value;
-    }
-    
-    let playerTotal = 0;
-    for (cardValues of player.hand) {
-        // console.log(cardValues.Value);
-        playerTotal += cardValues.Value;
-    }
-
-    if (dealerTotal > 21) {
-        console.log('player wins');
-    } else if (playerTotal > 21) {
-        console.log('dealer wins');
-    } else if (playerTotal === dealerTotal) {
-        console.log('Push!');        
-    } else if (dealerTotal > playerTotal) {
-        console.log('dealer wins');
-    } else if (dealerTotal < playerTotal) {
-        console.log('player wins');
-    }
-}
 
 const dealerLogic = () => {
     console.log('now it\'s the dealer\'s turn');
+
+    const $dealerHand = $('#face-down-dealer-card');
+    $dealerHand.text(dealer.hand[0].Rank);
+
     let dealerHand = 0;
     for (let i=0;i<dealer.hand.length;i++) {
         dealerHand += dealer.hand[i].Value;
