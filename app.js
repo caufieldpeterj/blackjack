@@ -88,13 +88,20 @@ const createGame = () => {
         }
     }
 
+    const splitHand = () => {
+        if (player.hand[0].Rank === player.hand[1].Rank) {
+            $buttons = $('.buttons');
+            $splitButton = $('<button>').text('Split Hand').attr('id', 'split-hand');
+            $buttons.append($splitButton); 
+            
+        }
+    }
+
     const checkNaturals = () => {
         let dealerHand = dealer.hand[0].Value + dealer.hand[1].Value;
         let playerHand = player.hand[0].Value + player.hand[1].Value;
-        // console.log(dealerHand);
-        // console.log(typeof dealerHand);          // returns number
-        console.log("Dealer total: " +dealerHand);
-        console.log("Player total: " +playerHand);
+        console.log("Dealer total: " + dealerHand);
+        console.log("Player total: " + playerHand);
     
         if (playerHand===21 && dealerHand===21) {
             let $h3 = $('<h3>').text('DOUBLE BLACKJACK, TIE GAME!');
@@ -103,6 +110,8 @@ const createGame = () => {
             let $h3 = $('<h3>').text('NATURAL BLACKJACK FOR THE PLAYER!');
             $('body').append($h3);
         } else if (playerHand < 21 && dealerHand===21) {
+            const $dealerHand = $('#face-down-dealer-card');
+            $dealerHand.text(dealer.hand[0].Rank);
             let $h3 = $('<h3>').text('NATURAL BLACKJACK FOR THE DEALER!');
             $('body').append($h3);
         } else if (playerHand > 21 || dealerHand > 21) {
@@ -117,6 +126,8 @@ const createGame = () => {
     
     dealCards();
     
+    splitHand();
+
     checkNaturals();
 };
 
@@ -210,5 +221,8 @@ $(() => {
 
     const $reset = $('#reset');
     $reset.on('click', resetGame);
+
+    const $splitButton = $('#split-hand');
+    $splitButton.on('click', ()=>{console.log('still gotta figure this out')});
 
 });
