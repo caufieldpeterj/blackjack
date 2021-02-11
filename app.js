@@ -48,6 +48,15 @@ for (suit of cardSuits) {
         // console.log(values, suits);
         // console.log(cardRank[ranks])
         let card = {Rank: ranks, Value: (cardRank[ranks]), Suit: suit}
+        if (card.Suit==="Clubs") {
+            card.SuitSymbol = "♣";
+        } else if (card.Suit==="Diamonds") {
+            card.SuitSymbol = "♦";
+        } else if (card.Suit==="Hearts") {
+            card.SuitSymbol = "♥";
+        } else {
+            card.SuitSymbol = "♠";
+        }
         deckOfCards.push(card);
     }
 };
@@ -56,105 +65,136 @@ const resetGame = () => {
     location.reload();
 };
 
+const ShuffleDeck = (deck) => {
+    for (let i=deck.length-1;i>0;i--) {
+        let x = Math.floor(Math.random()*(i+1));
+        [deck[i], deck[x]] = [deck[x], deck[i]];
+    }
+}
+
+const dealCards = () => {
+    const $playerHand = $('#player-cards');
+    const $dealerHand = $('#dealer-cards');
+    for (let i=0;i<4;i++) {
+        const $card = $('<div>').addClass('cards');
+        if (i%2===0) {
+            player.hand.push(deckOfCards.pop())
+            $card.text(player.hand[player.hand.length-1].Rank + player.hand[player.hand.length-1].SuitSymbol);
+            $playerHand.append($card);
+        } else {
+            dealer.hand.push(deckOfCards.pop());
+            if (dealer.hand.length-1 > 0) {
+                $card.text(dealer.hand[dealer.hand.length-1].Rank + dealer.hand[dealer.hand.length-1].SuitSymbol);
+                $dealerHand.append($card);
+            } else {
+                $card.text('Dealer: Card 1').attr('id', 'face-down-dealer-card');
+                $dealerHand.append($card);
+            }
+            
+        }            
+    }
+}
+
+
 let dealerHasAce = false;
 let playerHasAce = false;
 
 
-const createGame = () => {   
-    const ShuffleDeck = (deck) => {
-        for (let i=deck.length-1;i>0;i--) {
-            let x = Math.floor(Math.random()*(i+1));
-            [deck[i], deck[x]] = [deck[x], deck[i]];
+// FIND ACE function needs to be declared here
+// https://usefulangle.com/post/3/javascript-search-array-of-objects
+const findAce = (handOfCards) => {
+    for (let i=0;i<handOfCards.length;i++) {
+        if (handOfCards[i].Rank === "Ace") {
+            let aceIndex = i;
+            return true;
+            // handOfCards[acePresent].Value = 1;  //testing changing teh value fo the ace card to 1, works!
         }
     }
+}
 
-    const dealCards = () => {
-        const $playerHand = $('#player-cards');
-        const $dealerHand = $('#dealer-cards');
-        for (let i=0;i<4;i++) {
-            const $card = $('<div>').addClass('cards');
-            if (i%2===0) {
-                player.hand.push(deckOfCards.pop())
-                $card.text(player.hand[player.hand.length-1].Rank);
-                $playerHand.append($card);
-            } else {
-                dealer.hand.push(deckOfCards.pop());
-                if (dealer.hand.length-1 > 0) {
-                    $card.text(dealer.hand[dealer.hand.length-1].Rank);
-                    $dealerHand.append($card);
-                } else {
-                    $card.text('Dealer: Card 1').attr('id', 'face-down-dealer-card');
-                    $dealerHand.append($card);
-                }
-                
-            }            
-        }
-    }
+const checkNaturals = () => {
+    let dealerHand = dealer.hand[0].Value + dealer.hand[1].Value;
+    let playerHand = player.hand[0].Value + player.hand[1].Value;
+    console.log("Dealer total: " + dealerHand);
+    console.log("Player total: " + playerHand);
 
-    // FIND ACE function needs to be declared here
-    // https://usefulangle.com/post/3/javascript-search-array-of-objects
-    const findAce = (handOfCards) => {
-        for (let i=0;i<handOfCards.length;i++) {
-            if (handOfCards[i].Rank === "Ace") {
+    if (playerHand===21 && dealerHand===21) {
+        let $h3 = $('<h3>').text('DOUBLE BLACKJACK, TIE GAME!');
+        $('body').append($h3);
+    } else if (playerHand===21) {
+        let $h3 = $('<h3>').text('NATURAL BLACKJACK FOR THE PLAYER!');
+        $('body').append($h3);
+    } else if (dealerHand===21) {
+        const $dealerHand = $('#face-down-dealer-card');
+        $dealerHand.text(dealer.hand[0].Rank);
+        let $h3 = $('<h3>').text('NATURAL BLACKJACK FOR THE DEALER!');
+        $('body').append($h3);
+    } else if (dealerHasAce && dealerHand > 21) {
+        for (let i=0; i<dealer.hand.length; i++) {
+            if (dealer.hand[i].Rank === "Ace") {
                 let aceIndex = i;
-                return true;
-                // handOfCards[acePresent].Value = 1;  //testing changing teh value fo the ace card to 1, works!
+                dealer.hand[aceIndex].Value = 1;
+                }
             }
-        }
+        let $h3 = $('<h3>').text('Houston we have adjusted the problem and declared dealers ace vlaue to 1');
+        $('body').append($h3);
+    } else if (playerHasAce && playerHasAce > 21) {
+        for (let i=0; i<player.hand.length; i++) {
+            if (player.hand[i].Rank === "Ace") {
+                let aceIndex = i;
+                player.hand[aceIndex].Value = 1;
+                }
+            }
+        let $h3 = $('<h3>').text('Houston we have adjusted the problem and declared dealers ace vlaue to 1');
+        $('body').append($h3);
+        console.log(dealer.hand);
+    } else {
+        return;
     }
+};
 
 
-    const checkNaturals = () => {
-        let dealerHand = dealer.hand[0].Value + dealer.hand[1].Value;
-        let playerHand = player.hand[0].Value + player.hand[1].Value;
-        console.log("Dealer total: " + dealerHand);
-        console.log("Player total: " + playerHand);
-    
-        if (playerHand===21 && dealerHand===21) {
-            let $h3 = $('<h3>').text('DOUBLE BLACKJACK, TIE GAME!');
-            $('body').append($h3);
-        } else if (playerHand===21) {
-            let $h3 = $('<h3>').text('NATURAL BLACKJACK FOR THE PLAYER!');
-            $('body').append($h3);
-        } else if (dealerHand===21) {
-            const $dealerHand = $('#face-down-dealer-card');
-            $dealerHand.text(dealer.hand[0].Rank);
-            let $h3 = $('<h3>').text('NATURAL BLACKJACK FOR THE DEALER!');
-            $('body').append($h3);
-        } else if (dealerHasAce && dealerHand > 21) {
-            for (let i=0; i<dealer.hand.length; i++) {
-                if (dealer.hand[i].Rank === "Ace") {
-                    let aceIndex = i;
-                    dealer.hand[aceIndex].Value = 1;
-                    }
-                }
-            let $h3 = $('<h3>').text('Houston we have adjusted the problem and declared dealers ace vlaue to 1');
-            $('body').append($h3);
-        } else if (playerHasAce && playerHasAce > 21) {
-            for (let i=0; i<player.hand.length; i++) {
-                if (player.hand[i].Rank === "Ace") {
-                    let aceIndex = i;
-                    player.hand[aceIndex].Value = 1;
-                    }
-                }
-            let $h3 = $('<h3>').text('Houston we have adjusted the problem and declared dealers ace vlaue to 1');
-            $('body').append($h3);
-            console.log(dealer.hand);
-        } else {
-            return;
-        }
-    };
-    
+const createGame = () => {      
     ShuffleDeck(deckOfCards);
-    
     dealCards();
-    
-    dealerHasAce = findAce(dealer.hand);
-    playerHasAce = findAce(player.hand);
-
     checkNaturals();
 };
 
+
+const checkTotals = () => {
+    let dealerTotal = 0;
+    for (cardValues of dealer.hand) {
+        dealerTotal += cardValues.Value;
+    }
+    console.log('check totals function calculates dealer total of : '+ dealerTotal);
+
+    let playerTotal = 0;
+    for (cardValues of player.hand) {
+        playerTotal += cardValues.Value;
+    }
+    console.log('check totals function calculates player total of : '+ playerTotal);
+
+    if (dealerTotal > 21) {
+        let $h3 = $('<h3>').text('PLAYER WINS!');
+        $('body').append($h3);
+    } else if (playerTotal > 21) {
+        let $h3 = $('<h3>').text('BUSTED! DEALER WINS!');
+        $('body').append($h3);
+    } else if (playerTotal === dealerTotal) {
+        let $h3 = $('<h3>').text('PUSH!');
+        $('body').append($h3);
+    }
+    // } else if (dealerTotal > playerTotal) {
+    //     let $h3 = $('<h3>').text('DEALER WINS!');
+    //     $('body').append($h3);
+    // } else if (dealerTotal < playerTotal) {
+    //     let $h3 = $('<h3>').text('PLAYER WINS!');
+    //     $('body').append($h3);
+    // } else {
+    //     let $h3 = $('<h3>').text('HOUSTON WE HAVE A PROBLEM!');
+    //     $('body').append($h3);
+    // }
+}
 
 const splitHand = () => {
     if (player.hand[0].Rank === player.hand[1].Rank) {
@@ -219,34 +259,6 @@ const hitPlayer = () => {
     console.log("New player total: "+playerHandTotal);
 }
 
-const checkTotals = () => {
-    let dealerTotal = 0;
-    for (cardValues of dealer.hand) {
-        dealerTotal += cardValues.Value;
-    }
-    
-    let playerTotal = 0;
-    for (cardValues of player.hand) {
-        playerTotal += cardValues.Value;
-    }
-
-    if (dealerTotal > 21) {
-        let $h3 = $('<h3>').text('PLAYER WINS!');
-        $('body').append($h3);
-    } else if (playerTotal > 21) {
-        let $h3 = $('<h3>').text('DEALER WINS!');
-        $('body').append($h3);
-    } else if (playerTotal === dealerTotal) {
-        let $h3 = $('<h3>').text('PUSH!');
-        $('body').append($h3);
-    } else if (dealerTotal > playerTotal) {
-        let $h3 = $('<h3>').text('DEALER WINS!');
-        $('body').append($h3);
-    } else if (dealerTotal < playerTotal) {
-        let $h3 = $('<h3>').text('PLAYER WINS!');
-        $('body').append($h3);
-    }
-}
 
 
 const dealerLogic = () => {
@@ -272,6 +284,22 @@ const dealerLogic = () => {
     }
 
     checkTotals();
+    
+    let playerTotal = 0;
+    for (cardValues of player.hand) {
+        playerTotal += cardValues.Value;
+    }
+
+    if (dealerHand <= 21 && dealerHand > playerTotal) {
+        let $h3 = $('<h3>').text('DEALER WINS!');
+        $('body').append($h3);
+    } else if (playerTotal <= 21 && dealerHand < playerTotal) {
+        let $h3 = $('<h3>').text('PLAYER WINS!');
+        $('body').append($h3);
+    } else {
+        // let $h3 = $('<h3>').text('HOUSTON WE HAVE A PROBLEM!');
+        // $('body').append($h3);
+    }
 };
 
 
@@ -301,7 +329,3 @@ $(() => {
     });
 
 });
-
-
-
-// gotta figure out the split logic, ace + ace, 
