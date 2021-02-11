@@ -88,6 +88,21 @@ const createGame = () => {
         }
     }
 
+    // FIND ACE function needs to be declared here
+    // https://usefulangle.com/post/3/javascript-search-array-of-objects
+    let acePresent = -1;
+    const findAce = (handOfCards) => {
+        for (let i=0;i<handOfCards.length;i++) {
+            if (handOfCards[i].Rank === "Ace") {
+                console.log('there is an ace present');
+                acePresent = i;
+                handOfCards[acePresent].Value = 1;
+                console.log(handOfCards);
+            }
+        }
+    }
+
+
     const checkNaturals = () => {
         let dealerHand = dealer.hand[0].Value + dealer.hand[1].Value;
         let playerHand = player.hand[0].Value + player.hand[1].Value;
@@ -115,22 +130,13 @@ const createGame = () => {
     
     ShuffleDeck(deckOfCards);
     
-    dealCards();    
+    dealCards();
+    
+    findAce(player.hand);
+    findAce(dealer.hand);
 
     checkNaturals();
 };
-
-
-// FIND ACE function needs to be declared here
-// https://usefulangle.com/post/3/javascript-search-array-of-objects
-const findAce = (handOfCards) => {
-    for (let i=0;i<handOfCards.length;i++) {
-        if (handOfCards[i].Rank === "Ace") {
-            console.log('there is an ace present');
-        }
-    }
-}
-
 
 
 const splitHand = () => {
