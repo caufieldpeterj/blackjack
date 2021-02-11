@@ -93,21 +93,20 @@ const dealCards = () => {
             
         }            
     }
+    splitHand();
 }
 
 
 let dealerHasAce = false;
 let playerHasAce = false;
 
-
-// FIND ACE function needs to be declared here
 // https://usefulangle.com/post/3/javascript-search-array-of-objects
 const findAce = (handOfCards) => {
     for (let i=0;i<handOfCards.length;i++) {
         if (handOfCards[i].Rank === "Ace") {
             let aceIndex = i;
             return true;
-            // handOfCards[acePresent].Value = 1;  //testing changing teh value fo the ace card to 1, works!
+            // handOfCards[aceIndex].Value = 1;  //testing changing teh value fo the ace card to 1, works!
         }
     }
 }
@@ -129,25 +128,26 @@ const checkNaturals = () => {
         $dealerHand.text(dealer.hand[0].Rank);
         let $h3 = $('<h3>').text('NATURAL BLACKJACK FOR THE DEALER!');
         $('body').append($h3);
-    } else if (dealerHasAce && dealerHand > 21) {
+    } else if (dealerHand > 21) {
         for (let i=0; i<dealer.hand.length; i++) {
             if (dealer.hand[i].Rank === "Ace") {
                 let aceIndex = i;
                 dealer.hand[aceIndex].Value = 1;
                 }
             }
-        let $h3 = $('<h3>').text('Houston we have adjusted the problem and declared dealers ace vlaue to 1');
+        let $h3 = $('<h3>').text('The dealer has 2 aces and we are printing out the hand values below, hopefully the new hand value is 12 not 22');
         $('body').append($h3);
-    } else if (playerHasAce && playerHasAce > 21) {
+        console.log('dealer hand value within the check Naturals function is now '+ dealerHand);
+    } else if (playerHand > 21) {
         for (let i=0; i<player.hand.length; i++) {
             if (player.hand[i].Rank === "Ace") {
                 let aceIndex = i;
                 player.hand[aceIndex].Value = 1;
                 }
             }
-        let $h3 = $('<h3>').text('Houston we have adjusted the problem and declared dealers ace vlaue to 1');
+        let $h3 = $('<h3>').text('The player has 2 aces and we are printing out the hand values below, hopefully the new hand value is 12 not 22');
         $('body').append($h3);
-        console.log(dealer.hand);
+        console.log('player hand value within the check Naturals function is now '+ playerHand);
     } else {
         return;
     }
@@ -163,25 +163,33 @@ const createGame = () => {
 
 const checkTotals = () => {
     let dealerTotal = 0;
+    dealerHasAce = findAce(dealer.hand);
     for (cardValues of dealer.hand) {
         dealerTotal += cardValues.Value;
+        if (dealerTotal>21 && dealerHasAce) {
+            dealerTotal -= 10;
+        }
     }
     console.log('check totals function calculates dealer total of : '+ dealerTotal);
 
     let playerTotal = 0;
+    playerHasAce = findAce(player.hand);
     for (cardValues of player.hand) {
         playerTotal += cardValues.Value;
+        if (playerTotal>21 && playerHasAce) {
+            playerTotal -= 10;
+        }
     }
     console.log('check totals function calculates player total of : '+ playerTotal);
 
     if (dealerTotal > 21) {
-        let $h3 = $('<h3>').text('PLAYER WINS!');
+        let $h3 = $('<h3>').text('checkTotal says... DEALER BUSTED! PLAYER WINS!');
         $('body').append($h3);
     } else if (playerTotal > 21) {
-        let $h3 = $('<h3>').text('BUSTED! DEALER WINS!');
+        let $h3 = $('<h3>').text('checkTotal says... BUSTED! DEALER WINS!');
         $('body').append($h3);
     } else if (playerTotal === dealerTotal) {
-        let $h3 = $('<h3>').text('PUSH!');
+        let $h3 = $('<h3>').text('checkTotal says... PUSH!');
         $('body').append($h3);
     }
     // } else if (dealerTotal > playerTotal) {
@@ -204,6 +212,11 @@ const splitHand = () => {
     }
 }
 
+const splitHandFunction = () => {
+    let $h3 = $('<h3>').text('Splitting '+ player.hand[0].Rank+'s');
+    $('body').append($h3);
+}
+
 const hitPlayer = () => {
     // adding the card to the hand
     player.hand.push(deckOfCards.pop());
@@ -213,31 +226,26 @@ const hitPlayer = () => {
     const $playerHand = $('#player-cards');
     $playerHand.append($card);
     
-    // the player hand total equals the cards in their hand, iterate over the hand and add additional card values to the hand total
+    // iterate over the player hand and add card values to the hand total
     let playerHandTotal = 0;
     for (let i=0;i<player.hand.length;i++) {
         playerHandTotal += player.hand[i].Value;
     }
 
-    console.log("new total is " + playerHandTotal);
-
-    // FIND ACE function is being repeated here
-    // https://usefulangle.com/post/3/javascript-search-array-of-objects
-    const findAce = (handOfCards) => {
-        for (let i=0;i<handOfCards.length;i++) {
-            if (handOfCards[i].Rank === "Ace") {
-                let aceIndex = i;
-                return true;
-                // handOfCards[acePresent].Value = 1;  //testing changing teh value fo the ace card to 1, works!
-            }
-        }
-    }
+    console.log("New player total: "+playerHandTotal);
+ 
     playerHasAce = findAce(player.hand);
 
     if (playerHasAce && playerHandTotal > 21) {
         playerHandTotal -= 10;
         console.log("subtracting 10 from hand, new total is " + playerHandTotal);
     }
+
+    if (playerHandTotal>21) {
+        let $h3 = $('<h3>').text('BUST, PLAYER LOSES. DEALER WINS!');
+        $('body').append($h3);
+    }
+
 
     /*
     // if the player has and ace and HITTING caused their total to go over 21...
@@ -256,14 +264,11 @@ const hitPlayer = () => {
         }
     }
     */
-    console.log("New player total: "+playerHandTotal);
 }
 
 
 
 const dealerLogic = () => {
-    console.log('now it\'s the dealer\'s turn');
-
     const $dealerHand = $('#face-down-dealer-card');
     $dealerHand.text(dealer.hand[0].Rank);
 
@@ -271,6 +276,12 @@ const dealerLogic = () => {
     for (let i=0;i<dealer.hand.length;i++) {
         dealerHand += dealer.hand[i].Value;
     }
+
+    dealerHasAce = findAce(dealer.hand);
+    if (dealerHasAce) {
+        console.log("The dealer has an Ace");
+    }
+
 
     while (dealerHand < 17) {
         console.log('dealer will hit');
@@ -280,15 +291,24 @@ const dealerLogic = () => {
         dealerHand += dealer.hand[dealer.hand.length-1].Value;
         $card.text(dealer.hand[dealer.hand.length-1].Rank);
         $dealerHand.append($card);
+        dealerHasAce = findAce(dealer.hand);
+        if (dealerHasAce && dealerHand > 21) {
+            for (let i=0;i<dealer.hand.length;i++) {
+                if (dealer.hand[i].Rank === "Ace") {
+                    let aceIndex = i;
+                    dealer.hand[aceIndex].Value = 1;
+                }
+            }
+        }
         console.log('Dealer\'s hand totals '+ dealerHand);
     }
-
-    checkTotals();
     
     let playerTotal = 0;
     for (cardValues of player.hand) {
         playerTotal += cardValues.Value;
     }
+
+    checkTotals();
 
     if (dealerHand <= 21 && dealerHand > playerTotal) {
         let $h3 = $('<h3>').text('DEALER WINS!');
@@ -324,8 +344,6 @@ $(() => {
     $reset.on('click', resetGame);
 
     const $splitButton = $('#split-hand');
-    $splitButton.on('click', ()=>{
-        console.log('figure out split function');
-    });
+    $splitButton.on('click', splitHandFunction);
 
 });
