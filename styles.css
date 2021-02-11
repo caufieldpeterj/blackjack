@@ -5,14 +5,16 @@ body {
 }
 
 h1 {
-  text-align: center;
+  display: flex;
+  justify-content: center;
   margin: 50px auto 0px auto;
   color: rgb(214, 214, 3); 
   text-shadow: black;
 }
 
 h2 {
-  text-align: center;
+  display: flex;
+  justify-content: center;
   color: rgb(214, 214, 3); 
   /* color: rgb(212, 4, 4); */
   text-shadow: black;
@@ -28,20 +30,35 @@ h3 {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-bottom: 50px;
 }
 
 .container {
-  margin-top: 50px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  /* border: 1px solid black; */
+  border: 5px solid grey;
 }
 
 .participant {
+  display: flex;
   flex-direction: row;
   justify-content: space-around;
   border: 5px solid white;
   margin-bottom: 50px;
   color: white;
+  height: 350px;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  border:2px solid red;
+  background-color: white;
+  width: 100px;
+  height: 150px;
+  color: black;
+  margin: 10px;
+  justify-content: center;
+  align-items: center;
 }

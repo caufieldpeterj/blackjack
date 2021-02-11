@@ -231,15 +231,20 @@ const checkTotals = () => {
     }
 
     if (dealerTotal > 21) {
-        console.log('Player wins');
+        let $h3 = $('<h3>').text('PLAYER WINS!');
+        $('body').append($h3);
     } else if (playerTotal > 21) {
-        console.log('Dealer wins');
+        let $h3 = $('<h3>').text('DEALER WINS!');
+        $('body').append($h3);
     } else if (playerTotal === dealerTotal) {
-        console.log('Push');
+        let $h3 = $('<h3>').text('PUSH!');
+        $('body').append($h3);
     } else if (dealerTotal > playerTotal) {
-        console.log('Dealer wins');
+        let $h3 = $('<h3>').text('DEALER WINS!');
+        $('body').append($h3);
     } else if (dealerTotal < playerTotal) {
-        console.log('Player wins');
+        let $h3 = $('<h3>').text('PLAYER WINS!');
+        $('body').append($h3);
     }
 }
 
