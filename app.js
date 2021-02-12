@@ -37,10 +37,6 @@ const cardRank = {
     Ace: 11
 };
 
-// console.log(Object.values(cardRank));
-
-// for loop to iterate over the suits and for loop to iterate over the cards to create the actual cards
-
 let deckOfCards = [];
 
 for (suit of cardSuits) {
@@ -153,7 +149,6 @@ const checkNaturals = () => {
     }
 };
 
-
 const createGame = () => {      
     ShuffleDeck(deckOfCards);
     console.log(player.hand);
@@ -230,7 +225,6 @@ const hitPlayer = () => {
         player.hand.push(deckOfCards.pop());
     }
     
-    
     // jQuery and setting the card text
     const $card = $('<div>').addClass('cards');
     $card.text(player.hand[player.hand.length-1].Rank);
@@ -244,67 +238,49 @@ const hitPlayer = () => {
     }
     console.log("New player total: "+playerHandTotal);
 
-    if (player.hand[0].Rank === "Ace" && player.hand[1].Rank === "Ace" && playerHandTotal > 21) {
-        // for loop to iterate over player hand
-        let aceCount = 0;
-        for (let i=0;i<player.hand.length;i++) {
-            if (player.hand[i].Rank === "Ace") {
-                aceCount += 1;
-            }
+    let playerAceCount = 0;
+    // for loop to iterate over player hand
+    for (let i=0;i<player.hand.length;i++) {
+        if (player.hand[i].Rank === "Ace") {
+            playerAceCount += 1;
         }
-        playerHandTotal -= 10 * aceCount;
-        console.log("subtracting 10 points for each Ace in the hand, new total is " + playerHandTotal);
     }
-
-    if (playerHandTotal>21) {
+    
+    if (playerAceCount===0 && playerHandTotal > 21) {
         let $h3 = $('<h3>').text('BUST, PLAYER LOSES. DEALER WINS!');
         $('body').append($h3);
-    }
-
-
-    /*
-    // if the player has and ace and HITTING caused their total to go over 21...
-    if (playerHasAce && playerHandTotal > 21) {
-        // iterate over the player's hand
-        for (let i=0; i<player.hand.length; i++) {
-            // if any of the cards have the rank of Ace 
-            if (player.hand[i].Rank === "Ace") {
-                // set ace index equal to that cards position in the player's hand array
-                let aceIndex = i;
-                // reassign the ace a value of 1 vs. 11
-                player.hand[aceIndex].Value = 1;
-                }
-
-        console.log("after we recalculate hand total: "+ playerHandTotal);
+    } else if (playerAceCount>0 && playerHandTotal > 21) {
+        playerHandTotal -= 10 * playerAceCount;
+        console.log("subtracting 10 points for each Ace in the hand, new total is " + playerHandTotal);
+        if (playerHandTotal>21) {
+            let $h3 = $('<h3>').text('BUST, PLAYER LOSES. DEALER WINS!');
+            $('body').append($h3);
         }
     }
-    */
 }
 
-
-
 const dealerLogic = () => {
+    // flip over the dealer's face-down card
     const $dealerHand = $('#face-down-dealer-card');
     $dealerHand.text(dealer.hand[0].Rank);
-
+    // initializing dealer's hand assigning it a value of 0
     let dealerHand = 0;
+    // iterate over the dealer's hand
     for (let i=0;i<dealer.hand.length;i++) {
         dealerHand += dealer.hand[i].Value;
     }
-
+    // 
     dealerHasAce = findAce(dealer.hand);
     if (dealerHasAce) {
         console.log("The dealer has an Ace");
     }
 
-
     while (dealerHand < 17) {
-        console.log('dealer will hit');
+        console.log('Dealer will hit');
         dealer.hand.push(deckOfCards.pop());
-        const $card = $('<div>').addClass('cards');
+        const $card = $('<div>').addClass('cards').text(dealer.hand[dealer.hand.length-1].Rank, dealer.hand[dealer.hand.length-1].SuitSymbol);
         const $dealerHand = $('#dealer-cards');
         dealerHand += dealer.hand[dealer.hand.length-1].Value;
-        $card.text(dealer.hand[dealer.hand.length-1].Rank);
         $dealerHand.append($card);
         dealerHasAce = findAce(dealer.hand);
         if (dealerHasAce && dealerHand > 21) {
@@ -317,52 +293,35 @@ const dealerLogic = () => {
         }
         console.log('Dealer\'s hand totals '+ dealerHand);
     }
-    
-    let playerTotal = 0;
-    for (cardValues of player.hand) {
-        playerTotal += cardValues.Value;
-    }
 
     checkTotals();
-/*
-    if (dealerHand <= 21 && dealerHand > playerTotal) {
-        let $h3 = $('<h3>').text('DEALER WINS!');
-        $('body').append($h3);
-    } else if (playerTotal <= 21 && dealerHand < playerTotal) {
-        let $h3 = $('<h3>').text('PLAYER WINS!');
-        $('body').append($h3);
-    } else {
-        // let $h3 = $('<h3>').text('HOUSTON WE HAVE A PROBLEM!');
-        // $('body').append($h3);
-    }
-*/
+
 };
 
-
-
+// onload function
 $(() => {
-    // console.log(dealer.hand);
-    // console.log(player.hand);
-    // console.log('What would you like to do, hit or stand?');
+    
+    // const $reset = $('#reset');
+    // $reset.on('click', resetGame);
 
+    // target the DEAL ID using jQuery, assigning to $deal variable
+    // adding an event listener, passing in the callback function createGame
     const $deal = $('#deal');
     $deal.on('click', createGame);
 
-    // target the HIT button using jQuery, assigning to $hit variable
+    // target the HIT ID using jQuery, assigning to $hit variable
     // adding an event listener, passing in the callback function hitPlayer
     const $hit = $('#hit');
     $hit.on('click', hitPlayer);
 
+    // target the STAND ID using jQuery, assigning to $stand variable
+    // adding an event listener, passing in the callback function dealerLogic
     const $stand = $('#stand');
     $stand.on('click', dealerLogic);
 
-    const $reset = $('#reset');
-    $reset.on('click', resetGame);
-
+    // target the SPLIT-HAND ID using jQuery, assigning to $splitButton variable
+    // adding an event listener, passing in the callback function splitHandFunction
     const $splitButton = $('#split-hand');
     $splitButton.on('click', splitHandFunction);
 
 });
-
-
-// review 131-154 and 247-263 to deal with player getting dealt 2 aces  

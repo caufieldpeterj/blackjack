@@ -24,9 +24,11 @@ h2 {
 h3 {
   color: white;
   display: flex;
-  margin-left: 5%;
   font-size: 30px;
   text-align: center;
+  justify-content: center;
+  border: 3px solid rgb(214, 214, 3); 
+
 }
 
 .buttons {
@@ -73,7 +75,7 @@ h3 {
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
-  border: 5px solid white;
+  border: 5px solid rgb(214, 214, 3); 
   min-height: 350px;
   min-width: 450px;
 }
