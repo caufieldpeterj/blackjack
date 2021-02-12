@@ -26,27 +26,30 @@ h3 {
   display: flex;
   margin-left: 5%;
   font-size: 30px;
-  text
+  text-align: center;
 }
 
 .buttons {
-  display: flex;
+  display:flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-#deal, #hit, #stand {
+#deal, #hit, #stand, #split-hand {
   display: flex;
   flex-direction: row;
   background-color: ivory;
-  border: 1px solid grey;
   font-size: 20px;
   padding: 15px 30px;
   text-align: center;
   text-decoration: none;
+  border-radius: 15%;
+  border: 1px solid grey;
+  transition-duration: 0.2s;
+  /* https://www.w3schools.com/css/css3_buttons.asp */
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
-
 
 .container {
   display: flex;
