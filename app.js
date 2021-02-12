@@ -156,8 +156,14 @@ const checkNaturals = () => {
 
 const createGame = () => {      
     ShuffleDeck(deckOfCards);
-    dealCards();
-    checkNaturals();
+    console.log(player.hand);
+    if (player.hand.length > 0) {
+        resetGame();
+        return;
+    } else {
+        dealCards();
+        checkNaturals();
+    }    
 };
 
 
@@ -183,25 +189,24 @@ const checkTotals = () => {
     console.log('check totals function calculates player total of : '+ playerTotal);
 
     if (dealerTotal > 21) {
-        let $h3 = $('<h3>').text('checkTotal says... DEALER BUSTED! PLAYER WINS!');
+        let $h3 = $('<h3>').text('DEALER BUSTED! PLAYER WINS!');
         $('body').append($h3);
     } else if (playerTotal > 21) {
-        let $h3 = $('<h3>').text('checkTotal says... BUSTED! DEALER WINS!');
+        let $h3 = $('<h3>').text('BUSTED! DEALER WINS!');
         $('body').append($h3);
     } else if (playerTotal === dealerTotal) {
-        let $h3 = $('<h3>').text('checkTotal says... PUSH!');
+        let $h3 = $('<h3>').text('PUSH!');
+        $('body').append($h3);
+    } else if (dealerTotal > playerTotal) {
+        let $h3 = $('<h3>').text('DEALER WINS!');
+        $('body').append($h3);
+    } else if (dealerTotal < playerTotal) {
+        let $h3 = $('<h3>').text('PLAYER WINS!');
+        $('body').append($h3);
+    } else {
+        let $h3 = $('<h3>').text('HOUSTON WE HAVE A PROBLEM!');
         $('body').append($h3);
     }
-    // } else if (dealerTotal > playerTotal) {
-    //     let $h3 = $('<h3>').text('DEALER WINS!');
-    //     $('body').append($h3);
-    // } else if (dealerTotal < playerTotal) {
-    //     let $h3 = $('<h3>').text('PLAYER WINS!');
-    //     $('body').append($h3);
-    // } else {
-    //     let $h3 = $('<h3>').text('HOUSTON WE HAVE A PROBLEM!');
-    //     $('body').append($h3);
-    // }
 }
 
 const splitHand = () => {
@@ -218,8 +223,14 @@ const splitHandFunction = () => {
 }
 
 const hitPlayer = () => {
-    // adding the card to the hand
-    player.hand.push(deckOfCards.pop());
+    if (player.hand.length === 0) {
+        resetGame();
+    } else {
+        // adding the card to the hand
+        player.hand.push(deckOfCards.pop());
+    }
+    
+    
     // jQuery and setting the card text
     const $card = $('<div>').addClass('cards');
     $card.text(player.hand[player.hand.length-1].Rank);
@@ -231,14 +242,18 @@ const hitPlayer = () => {
     for (let i=0;i<player.hand.length;i++) {
         playerHandTotal += player.hand[i].Value;
     }
-
     console.log("New player total: "+playerHandTotal);
- 
-    playerHasAce = findAce(player.hand);
 
-    if (playerHasAce && playerHandTotal > 21) {
-        playerHandTotal -= 10;
-        console.log("subtracting 10 from hand, new total is " + playerHandTotal);
+    if (player.hand[0].Rank === "Ace" && player.hand[1].Rank === "Ace" && playerHandTotal > 21) {
+        // for loop to iterate over player hand
+        let aceCount = 0;
+        for (let i=0;i<player.hand.length;i++) {
+            if (player.hand[i].Rank === "Ace") {
+                aceCount += 1;
+            }
+        }
+        playerHandTotal -= 10 * aceCount;
+        console.log("subtracting 10 points for each Ace in the hand, new total is " + playerHandTotal);
     }
 
     if (playerHandTotal>21) {
@@ -309,7 +324,7 @@ const dealerLogic = () => {
     }
 
     checkTotals();
-
+/*
     if (dealerHand <= 21 && dealerHand > playerTotal) {
         let $h3 = $('<h3>').text('DEALER WINS!');
         $('body').append($h3);
@@ -320,6 +335,7 @@ const dealerLogic = () => {
         // let $h3 = $('<h3>').text('HOUSTON WE HAVE A PROBLEM!');
         // $('body').append($h3);
     }
+*/
 };
 
 
@@ -347,3 +363,6 @@ $(() => {
     $splitButton.on('click', splitHandFunction);
 
 });
+
+
+// review 131-154 and 247-263 to deal with player getting dealt 2 aces  
