@@ -265,37 +265,49 @@ const dealerLogic = () => {
     $dealerHand.text(dealer.hand[0].Rank);
     // initializing dealer's hand assigning it a value of 0
     let dealerHand = 0;
-    // iterate over the dealer's hand
-    for (let i=0;i<dealer.hand.length;i++) {
-        dealerHand += dealer.hand[i].Value;
-    }
-    // 
+    // determine whether or not the dealer has an Ace
     dealerHasAce = findAce(dealer.hand);
     if (dealerHasAce) {
         console.log("The dealer has an Ace");
     }
+    // iterate over the dealer's hand and sum the cards
+    for (let i=0;i<dealer.hand.length;i++) {
+        dealerHand += dealer.hand[i].Value;
+    }
 
-    while (dealerHand < 17) {
-        console.log('Dealer will hit');
-        dealer.hand.push(deckOfCards.pop());
-        const $card = $('<div>').addClass('cards').text(dealer.hand[dealer.hand.length-1].Rank, dealer.hand[dealer.hand.length-1].SuitSymbol);
-        const $dealerHand = $('#dealer-cards');
-        dealerHand += dealer.hand[dealer.hand.length-1].Value;
-        $dealerHand.append($card);
-        dealerHasAce = findAce(dealer.hand);
-        if (dealerHasAce && dealerHand > 21) {
-            for (let i=0;i<dealer.hand.length;i++) {
-                if (dealer.hand[i].Rank === "Ace") {
-                    let aceIndex = i;
-                    dealer.hand[aceIndex].Value = 1;
+    if (dealerHasAce && dealerHand > 21) {
+        for (let i=0;i<dealer.hand.length;i++) {
+            if (dealer.hand[i].Rank === "Ace") {
+                let aceIndex = i;
+                dealer.hand[aceIndex].Value = 1;
+                for (let i=0;i<dealer.hand.length;i++) {
+                    dealerHand += dealer.hand[i].Value;
                 }
             }
         }
+    }
+
+    while (dealerHand < 17) {
+        console.log('Dealer will hit');
+        // push another card to the dealer's hand
+        dealer.hand.push(deckOfCards.pop());
+        const $card = $('<div>').addClass('cards').text(dealer.hand[dealer.hand.length-1].Rank, dealer.hand[dealer.hand.length-1].SuitSymbol);
+        
+       
+        dealerHand += dealer.hand[dealer.hand.length-1].Value;
+
+        const $dealerHand = $('#dealer-cards');
+        $dealerHand.append($card);
+        
         console.log('Dealer\'s hand totals '+ dealerHand);
     }
 
-    checkTotals();
+    // iterate over the dealer's hand
+    for (let i=0;i<dealer.hand.length;i++) {
+        dealerHand += dealer.hand[i].Value;
+    }
 
+    checkTotals();
 };
 
 // onload function
