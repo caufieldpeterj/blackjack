@@ -76,20 +76,24 @@ h3 {
   align-items: center;
   justify-content: center;
   border: 5px solid rgb(214, 214, 3); 
-  min-height: 350px;
+  min-height: 400px;
   min-width: 550px;
   margin-bottom: 15px;
 }
 
 .cards {
   display: flex;
-  border:3.5px solid red;
-  background-color: white;
-  width: 100px;
-  height: 150px;
+  border: 3.5px solid red;
+  background-color: ivory;
+  background-image: url(b54b517bd52b74fe435fde37f2c1d30f.png);
+  background-size: cover;
+  min-width: 175px;
+  min-height: 250px;
   color: black;
   margin: 10px;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center; */
+  /* align-items: center; */
   font-size: 25px;
+  /* https://www.w3schools.com/cssref/css3_pr_background-size.asp */
+  
 }

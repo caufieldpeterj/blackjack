@@ -31,19 +31,31 @@ const cardRank = {
     Eight: 8, 
     Nine: 9, 
     Ten: 10,
-    Jack: 10,
-    Queen: 10,
-    King: 10, 
-    Ace: 11
+    J: 10,
+    Q: 10,
+    K: 10, 
+    A: 11
 };
 
 let deckOfCards = [];
-
+let card = {};
 for (suit of cardSuits) {
     for (ranks in cardRank) {
         // console.log(values, suits);
         // console.log(cardRank[ranks])
-        let card = {Rank: ranks, Value: (cardRank[ranks]), Suit: suit}
+        if (cardRank[ranks]<9 || ranks==="Ten") {
+            card = {
+                Rank: cardRank[ranks], 
+                Value: cardRank[ranks], 
+                Suit: suit
+            };
+        } else {
+            card = {
+                Rank: ranks, 
+                Value: cardRank[ranks], 
+                Suit: suit
+            };           
+        }   
         if (card.Suit==="Clubs") {
             card.SuitSymbol = "♣";
         } else if (card.Suit==="Diamonds") {
@@ -83,7 +95,7 @@ const dealCards = () => {
                 $card.text(dealer.hand[dealer.hand.length-1].Rank + dealer.hand[dealer.hand.length-1].SuitSymbol);
                 $dealerHand.append($card);
             } else {
-                $card.text('Dealer: Card 1').attr('id', 'face-down-dealer-card');
+                $card.attr('id', 'face-down-dealer-card');
                 $dealerHand.append($card);
             }
             
@@ -121,7 +133,7 @@ const checkNaturals = () => {
         $('body').append($h3);
     } else if (dealerHand===21) {
         const $dealerHand = $('#face-down-dealer-card');
-        $dealerHand.text(dealer.hand[0].Rank);
+        $dealerHand.text(dealer.hand[0].Rank + dealer.hand[0].SuitSymbol);
         let $h3 = $('<h3>').text('NATURAL BLACKJACK FOR THE DEALER!');
         $('body').append($h3);
     } else if (dealerHand > 21) {
@@ -227,7 +239,7 @@ const hitPlayer = () => {
     
     // jQuery and setting the card text
     const $card = $('<div>').addClass('cards');
-    $card.text(player.hand[player.hand.length-1].Rank);
+    $card.text(player.hand[player.hand.length-1].Rank + player.hand[player.hand.length-1].SuitSymbol);
     const $playerHand = $('#player-cards');
     $playerHand.append($card);
     
@@ -262,38 +274,21 @@ const hitPlayer = () => {
 const dealerLogic = () => {
     // flip over the dealer's face-down card
     const $dealerHand = $('#face-down-dealer-card');
-    $dealerHand.text(dealer.hand[0].Rank);
+    $dealerHand.text(dealer.hand[0].Rank + dealer.hand[0].SuitSymbol);
+    
     // initializing dealer's hand assigning it a value of 0
     let dealerHand = 0;
-    // determine whether or not the dealer has an Ace
-    dealerHasAce = findAce(dealer.hand);
-    if (dealerHasAce) {
-        console.log("The dealer has an Ace");
-    }
     // iterate over the dealer's hand and sum the cards
     for (let i=0;i<dealer.hand.length;i++) {
         dealerHand += dealer.hand[i].Value;
-    }
-
-    if (dealerHasAce && dealerHand > 21) {
-        for (let i=0;i<dealer.hand.length;i++) {
-            if (dealer.hand[i].Rank === "Ace") {
-                let aceIndex = i;
-                dealer.hand[aceIndex].Value = 1;
-                for (let i=0;i<dealer.hand.length;i++) {
-                    dealerHand += dealer.hand[i].Value;
-                }
-            }
-        }
     }
 
     while (dealerHand < 17) {
         console.log('Dealer will hit');
         // push another card to the dealer's hand
         dealer.hand.push(deckOfCards.pop());
-        const $card = $('<div>').addClass('cards').text(dealer.hand[dealer.hand.length-1].Rank, dealer.hand[dealer.hand.length-1].SuitSymbol);
-        
-       
+        const $card = $('<div>').addClass('cards').text(dealer.hand[dealer.hand.length-1].Rank + dealer.hand[dealer.hand.length-1].SuitSymbol);
+          
         dealerHand += dealer.hand[dealer.hand.length-1].Value;
 
         const $dealerHand = $('#dealer-cards');
@@ -301,11 +296,24 @@ const dealerLogic = () => {
         
         console.log('Dealer\'s hand totals '+ dealerHand);
     }
-
-    // iterate over the dealer's hand
-    for (let i=0;i<dealer.hand.length;i++) {
-        dealerHand += dealer.hand[i].Value;
-    }
+    
+    // determine whether or not the dealer has an Ace
+    dealerHasAce = findAce(dealer.hand);
+    // instantiating a variable to keep track of number of Aces within the dealer's hand
+    let aceCount = 0;
+    
+    // if the dealer has an Ace, and his hand is greater than 21 loop thru the dealer's hand and keep count of the aces
+    if (dealerHasAce && dealerHand > 21) {
+        for (let i=0;i<dealer.hand.length;i++) {
+            if (dealer.hand[i].Rank === "Ace") {
+                aceCount +=1;
+                dealer.hand[i].Value = 1;
+                for (let i=0;i<dealer.hand.length;i++) {
+                    newDealerHand += dealer.hand[i].Value;
+                }
+            }
+        }
+    }  
 
     checkTotals();
 };
