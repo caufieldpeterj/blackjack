@@ -43,7 +43,7 @@ for (suit of cardSuits) {
     for (ranks in cardRank) {
         // console.log(values, suits);
         // console.log(cardRank[ranks])
-        if (cardRank[ranks]<9 || ranks==="Ten") {
+        if (cardRank[ranks]<=9 || ranks==="Ten") {
             card = {
                 Rank: cardRank[ranks], 
                 Value: cardRank[ranks], 

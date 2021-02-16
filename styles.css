@@ -4,6 +4,7 @@ body {
     background-color: rgb(15, 82, 15);
 }
 
+/* Blackjack */
 h1 {
   display: flex;
   justify-content: center;
@@ -12,6 +13,7 @@ h1 {
   text-shadow: black;
 }
 
+/* Dealer must Draw on 16 and stand on 17 */
 h2 {
   display: flex;
   justify-content: center;
@@ -19,8 +21,10 @@ h2 {
   /* color: rgb(212, 4, 4); */
   text-shadow: black;
   font-style: italic;
+  align-items: center;
 }
 
+/* Dealer */
 h3 {
   color: white;
   display: flex;
@@ -36,6 +40,7 @@ h3 {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  
 }
 
 #deal, #hit, #stand, #split-hand {
@@ -91,9 +96,11 @@ h3 {
   min-height: 250px;
   color: black;
   margin: 10px;
+  padding: 2.5% 3% 3% 3.5%;
+
   /* justify-content: center; */
   /* align-items: center; */
-  font-size: 25px;
+  font-size: 2em;
   /* https://www.w3schools.com/cssref/css3_pr_background-size.asp */
   
 }
