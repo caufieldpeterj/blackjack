@@ -1,5 +1,5 @@
 # BLACKJACK
-======
+
 Name of game: 
     Blackjack
 
@@ -16,7 +16,7 @@ Expanded Rules:
     https://bicyclecards.com/how-to-play/blackjack/
 
 ## THE SETUP
-======
+
 Overview:  There is a single player, a dealer, and a deck of 52 cards.
 
 The cards are reprented as objects, with keys being the rank of the card (Four, Five, Jack, Queen, King, Ace) and value is the numerical value of the card (pip values for 2-10, honor cards are 10, and Ace can be 1 or 11).
@@ -26,7 +26,6 @@ https://www.programiz.com/javascript/examples/shuffle-card
 
 
 ## SHUFFLE AND DEAL
-======
 
 First, we shuffle the deck and then deal the player and dealer 2 cards.
 
@@ -52,7 +51,6 @@ const ShuffleDeck = (deck) => {
 
 
 ## NATURALS
-======
 
 If the sum of the player's cards is 21 && the dealers 1st card is not a 10 or Ace... NATURAL BLACKJACK for that player
 
@@ -62,7 +60,6 @@ If the sum of the player's cards === 21 AND the dealer's 1st card is a 10 or Ace
 
 
 ## THE PLAY
-======
 
 The player goes first, chooses to hit, stand, or split if their first 2 cards are of the same denomination ex. 2 queens, 2 sevens, 2 aces, etc. If the player splits anything other than aces, the player plays the hand to their left by standing or hitting, then the hand to their right. With a pair of aces, the player is given one card for each ace and may not draw again.
 
@@ -73,7 +70,6 @@ Closest player to 21, wins.
 Thanks for reading, I hope you enjoy this application!
 
 ## REFERENCES
-======
 
 https://git.generalassemb.ly/seir-1-19/student-resources/blob/main/1_front_end_development/w03d05/instructor_notes/code-organization.md
 
