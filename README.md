@@ -1,6 +1,5 @@
-================================================
-            BLACKJACK
-================================================
+# BLACKJACK
+======
 Name of game: 
     Blackjack
 
@@ -16,9 +15,8 @@ How to lose:
 Expanded Rules: 
     https://bicyclecards.com/how-to-play/blackjack/
 
-==============================================
-                THE SETUP
-==============================================
+## THE SETUP
+======
 Overview:  There is a single player, a dealer, and a deck of 52 cards.
 
 The cards are reprented as objects, with keys being the rank of the card (Four, Five, Jack, Queen, King, Ace) and value is the numerical value of the card (pip values for 2-10, honor cards are 10, and Ace can be 1 or 11).
@@ -26,9 +24,9 @@ The cards are reprented as objects, with keys being the rank of the card (Four, 
 I found this link below Monday (2/8) morning at 8:28am, after outlining this method over the weekend/with Raahima (TA)! Hard to believe, but it's the truth.
 https://www.programiz.com/javascript/examples/shuffle-card
 
-==============================================
-                SHUFFLE AND DEAL
-==============================================
+
+## SHUFFLE AND DEAL
+======
 
 First, we shuffle the deck and then deal the player and dealer 2 cards.
 
@@ -52,9 +50,9 @@ const ShuffleDeck = (deck) => {
     }
 }
 
-==============================================
-                    NATURALS
-==============================================
+
+## NATURALS
+======
 
 If the sum of the player's cards is 21 && the dealers 1st card is not a 10 or Ace... NATURAL BLACKJACK for that player
 
@@ -62,9 +60,9 @@ If the sum of the player's cards is not 21 AND the dealer's 1st card is a 10 or 
 
 If the sum of the player's cards === 21 AND the dealer's 1st card is a 10 or Ace check to see if the sum of dealer's cards is 21... if sum of dealers card is 21... tie game
 
-==============================================
-                    THE PLAY
-==============================================
+
+## THE PLAY
+======
 
 The player goes first, chooses to hit, stand, or split if their first 2 cards are of the same denomination ex. 2 queens, 2 sevens, 2 aces, etc. If the player splits anything other than aces, the player plays the hand to their left by standing or hitting, then the hand to their right. With a pair of aces, the player is given one card for each ace and may not draw again.
 
@@ -74,9 +72,8 @@ Closest player to 21, wins.
 
 Thanks for reading, I hope you enjoy this application!
 
-===========================================
-REFERENCES
-===========================================
+## REFERENCES
+======
 
 https://git.generalassemb.ly/seir-1-19/student-resources/blob/main/1_front_end_development/w03d05/instructor_notes/code-organization.md
 
